@@ -113,5 +113,11 @@ public interface Playwright extends AutoCloseable {
   static Playwright create() {
     return create(null);
   }
+
+  /**
+   * This object can be used to launch or connect to Android, returning instances of {@code Browser}.
+   *
+   */
+  Android android();
 }
 

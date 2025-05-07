@@ -22,6 +22,7 @@ import com.google.gson.JsonObject;
 import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.PlaywrightException;
 import com.microsoft.playwright.TimeoutError;
+import com.microsoft.playwright.impl.AndroidImpl;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -304,13 +305,13 @@ public class Connection {
     ChannelOwner result = null;
     switch (type) {
       case "Android":
-//        result = new Android(parent, type, guid, initializer);
+        result = new AndroidImpl(parent, type, guid, initializer);
         break;
       case "AndroidSocket":
-//        result = new AndroidSocket(parent, type, guid, initializer);
+        result = new AndroidSocket(parent, type, guid, initializer);
         break;
       case "AndroidDevice":
-//        result = new AndroidDevice(parent, type, guid, initializer);
+        result = new AndroidDeviceImpl(parent, type, guid, initializer);
         break;
       case "Artifact":
         result = new ArtifactImpl(parent, type, guid, initializer);

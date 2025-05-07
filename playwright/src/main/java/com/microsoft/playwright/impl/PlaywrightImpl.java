@@ -23,6 +23,8 @@ import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.PlaywrightException;
 import com.microsoft.playwright.Selectors;
 import com.microsoft.playwright.impl.driver.Driver;
+import com.microsoft.playwright.impl.AndroidImpl;
+import com.microsoft.playwright.Android;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -62,6 +64,7 @@ public class PlaywrightImpl extends ChannelOwner implements Playwright {
   private final BrowserTypeImpl chromium;
   private final BrowserTypeImpl firefox;
   private final BrowserTypeImpl webkit;
+  private final AndroidImpl android;
   private final SelectorsImpl selectors;
   private final APIRequestImpl apiRequest;
   private SharedSelectors sharedSelectors;
@@ -71,6 +74,7 @@ public class PlaywrightImpl extends ChannelOwner implements Playwright {
     chromium = parent.connection.getExistingObject(initializer.getAsJsonObject("chromium").get("guid").getAsString());
     firefox = parent.connection.getExistingObject(initializer.getAsJsonObject("firefox").get("guid").getAsString());
     webkit = parent.connection.getExistingObject(initializer.getAsJsonObject("webkit").get("guid").getAsString());
+    android = parent.connection.getExistingObject(initializer.getAsJsonObject("android").get("guid").getAsString());
 
     selectors = connection.getExistingObject(initializer.getAsJsonObject("selectors").get("guid").getAsString());
     apiRequest = new APIRequestImpl(this);
@@ -90,12 +94,8 @@ public class PlaywrightImpl extends ChannelOwner implements Playwright {
     sharedSelectors.removeChannel(selectors);
   }
 
-  public LocalUtils localUtils() {
-    return connection.localUtils;
-  }
-
   public JsonArray deviceDescriptors() {
-    return localUtils().deviceDescriptors();
+    return connection.localUtils.deviceDescriptors();
   }
 
   @Override
@@ -121,6 +121,11 @@ public class PlaywrightImpl extends ChannelOwner implements Playwright {
   @Override
   public Selectors selectors() {
     return sharedSelectors;
+  }
+
+  @Override
+  public Android android() {
+    return android;
   }
 
   @Override
